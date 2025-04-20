@@ -2,28 +2,67 @@
 
 {% block content %}
 <meta charset="UTF-8">
-<h2 align="center">Прогноз погоды на следующие 14 дней</h2>
-{% for day in forecast_weather_data %}
-<h3>
-    {{ day["date"] }}
-</h3>
-<div class="table_container">
-    <table class="my_table">
-        <tr class="my_row">
-            <td class="title" width="600px" bgcolor="#dddddd">Температура</td>
-            <td class="title" width="200px" bgcolor="#dddddd">Скорость ветра</td>
-        </tr>
-        <tr class="my_row">
-            <td class="ordinary" bgcolor="#eeeeff">Максимальная: {{ day["day"]["maxtemp_c"] }} °C |
-                Минимальная: {{ day["day"]["mintemp_c"] }} °C |
-                Средняя: {{ day["day"]["avgtemp_c"] }} °C |
-            </td>
-            <td class="ordinary" bgcolor="#eeeeff">{{ day["day"]["maxwind_kph"] }} км/ч</td>
-        </tr>
+<!--Сегодня-->
+<h2 align="center"> Почасовой прогноз на {{ current_weather_data["localtime"] }}</h2>
+{% for hour in hourly_forecast_weather_data %}
+    <h3>
+    </h3>
+    <div class="table_container">
+        <table class="my_table">
+            <tr class="my_row">
+                <td class="title" width="600px" bgcolor="#eeeeff">
+                    {{ hour["time"] }}  {{ hour["temp_c"] }} °C
+                {% if hour["condition"]["text"] == "Солнечно" %}
+                    <img src="static/img/sunny.png" alt="">
+                {% elif hour["condition"]["text"] == "Ясно" %}
+                    <img src="static/img/starry_night.png" alt="">
+                {% elif hour["condition"]["text"] == "Местами дождь"%}
+                    <img src="static/img/rainy.png" alt="">
+                {% elif hour["condition"]["text"] == "Пасмурно"%}
+                    <img src="static/img/cloudy.png" alt="">
+                {% elif hour["condition"]["text"] == "Переменная облачность"%}
+                    <img src="static/img/cloudy.png" alt="">
+                {% endif %}
+                </td>
+            </tr>
 
-    </table>
-</div>
+        </table>
+    </div>
+{% endfor %}
+<!--Конец сегодня-->
 <br>
+<!--Прогноз-->
+<h2 align="center">Прогноз погоды на следующие 13 дней</h2>
+{% for day in daily_forecast_weather_data[1:] %}
+    <h3>{{ day["date"] }}  {{ day["day"]["avgtemp_c"] }} °C
+        {% if day["day"]["condition"]["text"] == "Солнечно" or day["day"]["condition"]["text"] == "Ясно"%}
+            <img src="static/img/sunny.png" alt="">
+        {% elif day["day"]["condition"]["text"] == "Местами дождь"%}
+            <img src="static/img/rainy.png" alt="">
+        {% elif day["day"]["condition"]["text"] == "Пасмурно"%}
+            <img src="static/img/cloudy.png" alt="">
+        {% elif day["day"]["condition"]["text"] == "Переменная облачность"%}
+            <img src="static/img/cloudy.png" alt="">
+        {% endif %}
+    </h3>
+    <div class="table_container">
+        <table class="my_table">
+            <tr class="my_row">
+                <td class="title" width="600px" bgcolor="#dddddd">Температура</td>
+                <td class="title" width="200px" bgcolor="#dddddd">Скорость ветра</td>
+            </tr>
+            <tr class="my_row">
+                <td class="ordinary" bgcolor="#eeeeff">Максимальная: {{ day["day"]["maxtemp_c"] }} °C |
+                    Минимальная: {{ day["day"]["mintemp_c"] }} °C |
+                    Средняя: {{ day["day"]["avgtemp_c"] }} °C
+                </td>
+                <td class="ordinary" bgcolor="#eeeeff">{{ day["day"]["maxwind_kph"] }} км/ч</td>
+            </tr>
+
+        </table>
+    </div>
+<br>
+<!--Конец прогноз-->
 {% endfor %}
 
 {% endblock %}
