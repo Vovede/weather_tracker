@@ -32,7 +32,7 @@
 <!--Конец сегодня-->
 <br>
 <!--Прогноз-->
-<h2 align="center">Прогноз погоды на следующие 13 дней</h2>
+<h2 align="center">Прогноз погоды на следующие 2 дня</h2>
 {% for day in daily_forecast_weather_data[1:] %}
     <h3>{{ day["date"] }}  {{ day["day"]["avgtemp_c"] }} °C
         {% if day["day"]["condition"]["text"] == "Солнечно" or day["day"]["condition"]["text"] == "Ясно"%}
