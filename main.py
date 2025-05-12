@@ -43,7 +43,7 @@ def index():
 
     hourly_forecast_weather_data = hourly_forecast_weather_data[now:]
 
-    url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={city}&days=14&lang=ru"
+    url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API_KEY}&q={city}&days=3&lang=ru"
     response = requests.get(url)
     daily_forecast_weather_data = response.json()["forecast"]["forecastday"]
 
